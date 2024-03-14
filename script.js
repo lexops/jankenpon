@@ -10,24 +10,40 @@ function getComputerChoice() {
   }
 }
 
-// console.log(getComputerChoice())
-
 function playRound(playerSelection, computerSelection) {
   if (playerSelection === computerSelection) {
-    return `Computer chose ${computerSelection}.\nIt's a tie!`
+    return ["tie", `Computer chose ${computerSelection}.\nIt's a tie!`]
   }
 
   if (playerSelection === 'rock' && computerSelection === 'scissors'
     || playerSelection === 'paper' && computerSelection === 'rock'
     || playerSelection === 'scissors' && computerSelection === 'paper') {
 
-    return `Computer chose ${computerSelection}.\nYou win!`
+    return ["player", `Computer chose ${computerSelection}.\nYou win!`]
   }
 
-  return `Computer chose ${computerSelection}.\nYou lose!`
+  return ["computer", `Computer chose ${computerSelection}.\nYou lose!`]
 }
 
-const playerSelection = "pApEr".toLowerCase()
-const computerSelection = getComputerChoice()
+(function playGame(playRound) {
+  let playerWins = 0
+  let computerWins = 0
 
-console.log(playRound(playerSelection, computerSelection))
+  do {
+    const playerSelection = prompt("Choose either rock, paper or scissors").toLowerCase()
+
+    const computerSelection = getComputerChoice()
+
+    const winner = playRound(playerSelection, computerSelection)[0]
+    const roundMessage = playRound(playerSelection, computerSelection)[1]
+
+    winner === "player" ? playerWins++ : winner === "computer" ? computerWins++ : null // pass
+
+    alert(roundMessage + "\n" + `\nScore:\n\tComputer: ${computerWins}\n\tYou: ${playerWins}`)
+
+  } while (playerWins < 5 && computerWins < 5)
+
+  const gameWinner = (playerWins > computerWins) ? "You" : "Computer"
+  alert(`GAME OVER!\n${gameWinner} won!\n\nFinal Score:\n\tComputer: ${computerWins}\n\tYou: ${playerWins}`)
+})(playRound);
+
