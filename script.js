@@ -10,40 +10,59 @@ function getComputerChoice() {
   }
 }
 
-function playRound(playerSelection, computerSelection) {
+let playerWins = 0
+let computerWins = 0
+
+const results = document.querySelector("#results")
+
+function playRound(playerSelection) {
+  const computerSelection = getComputerChoice()
+
   if (playerSelection === computerSelection) {
-    return ["tie", `Computer chose ${computerSelection}.\nIt's a tie!`]
+    results.textContent = `Computer chose ${computerSelection}.\nIt's a tie!`
+    return
   }
 
   if (playerSelection === 'rock' && computerSelection === 'scissors'
     || playerSelection === 'paper' && computerSelection === 'rock'
     || playerSelection === 'scissors' && computerSelection === 'paper') {
 
-    return ["player", `Computer chose ${computerSelection}.\nYou win!`]
+    playerWins++
+    results.textContent = `Computer chose ${computerSelection}.\nYou win!`
+    return
   }
 
-  return ["computer", `Computer chose ${computerSelection}.\nYou lose!`]
+  computerWins++
+  results.textContent = `Computer chose ${computerSelection}.\nYou lose!`
+  return
 }
 
-(function playGame(playRound) {
-  let playerWins = 0
-  let computerWins = 0
+const scoreBoard = document.querySelector("#score")
 
-  do {
-    const playerSelection = prompt("Choose either rock, paper or scissors").toLowerCase()
+function updateScoreBoard() {
+  scoreBoard.textContent = `You ${playerWins} x ${computerWins} Computer`
+}
 
-    const computerSelection = getComputerChoice()
+function checkForGameWinner() {
+  if (playerWins === 5 || computerWins === 5) {
+    const winner = (playerWins > computerWins) ? "You" : "Computer"
+    results.innerHTML += `<br>Game over! ${winner} won!`
+    playerWins = 0
+    computerWins = 0
+  }
+}
 
-    const winner = playRound(playerSelection, computerSelection)[0]
-    const roundMessage = playRound(playerSelection, computerSelection)[1]
+function resetGame() {
 
-    winner === "player" ? playerWins++ : winner === "computer" ? computerWins++ : null // pass
+}
 
-    alert(roundMessage + "\n" + `\nScore:\n\tComputer: ${computerWins}\n\tYou: ${playerWins}`)
+const buttons = document.querySelectorAll("button")
 
-  } while (playerWins < 5 && computerWins < 5)
-
-  const gameWinner = (playerWins > computerWins) ? "You" : "Computer"
-  alert(`GAME OVER!\n${gameWinner} won!\n\nFinal Score:\n\tComputer: ${computerWins}\n\tYou: ${playerWins}`)
-})(playRound);
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    playRound(button.id)
+    updateScoreBoard()
+    checkForGameWinner()
+  })
+})
 
