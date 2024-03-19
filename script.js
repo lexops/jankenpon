@@ -19,7 +19,7 @@ function playRound(playerSelection) {
   const computerSelection = getComputerChoice()
 
   if (playerSelection === computerSelection) {
-    results.textContent = `Computer chose ${computerSelection}.\nIt's a tie!`
+    results.textContent = `Computer chose ${computerSelection}. It's a tie!`
     return
   }
 
@@ -28,12 +28,12 @@ function playRound(playerSelection) {
     || playerSelection === 'scissors' && computerSelection === 'paper') {
 
     playerWins++
-    results.textContent = `Computer chose ${computerSelection}.\nYou win!`
+    results.textContent = `Computer chose ${computerSelection}. You win!`
     return
   }
 
   computerWins++
-  results.textContent = `Computer chose ${computerSelection}.\nYou lose!`
+  results.textContent = `Computer chose ${computerSelection}. You lose!`
   return
 }
 
@@ -50,10 +50,6 @@ function checkForGameWinner() {
     playerWins = 0
     computerWins = 0
   }
-}
-
-function resetGame() {
-
 }
 
 const buttons = document.querySelectorAll("button")
