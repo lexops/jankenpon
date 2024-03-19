@@ -46,7 +46,7 @@ function updateScoreBoard() {
 function checkForGameWinner() {
   if (playerWins === 5 || computerWins === 5) {
     const winner = (playerWins > computerWins) ? "You" : "Computer"
-    results.innerHTML += `<br>Game over! ${winner} won!`
+    results.innerHTML += "Game over!"
     playerWins = 0
     computerWins = 0
   }
